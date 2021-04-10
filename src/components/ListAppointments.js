@@ -3,10 +3,20 @@ import Moment from 'react-moment';
 
 function ListAppointments(props) {
 
-    const appointments = props.appointments;
+    var appointments = props.appointments;
     const deleteAppointment = props.deleteAppointment;
+    const queryText = props.queryText;
 
     //console.log(appointments);
+
+    if(queryText.trim().length !== 0) {
+        appointments = appointments.filter(item => (
+            item['petName'].toLowerCase().includes(queryText.toLowerCase()) ||
+            item['ownerName'].toLowerCase().includes(queryText.toLowerCase()) ||
+            item['aptNotes'].toLowerCase().includes(queryText.toLowerCase())
+        ));
+    }
+    
 
     const listItems = appointments.map((item) => (
         <div className="pet-item col media py-3" key={item.id}>
@@ -21,7 +31,7 @@ function ListAppointments(props) {
 
                 <div className="pet-info media-body">
                     <div className="pet-head d-flex">
-                        <span className="pet-name">{item.id}--{item.petName}</span>
+                        <span className="pet-name">{item.petName}</span>
                         <span className="apt-date ml-auto">
                             <Moment
                                 date={item.aptDate}

@@ -4,13 +4,16 @@ import { useState, useEffect } from 'react';
 import AddAppointments from './AddAppointments';
 import SearchAppointments from './SearchAppointments';
 import ListAppointments from './ListAppointments';
-import { without } from 'lodash';
+import { filter, without } from 'lodash';
 
 function App() {
 
   const [myAppointments, setMyAppointments] = useState([{}]);
   const [formDisplay, setFormDisplay] = useState(false);
   const [lastIndex, setLastIndex] = useState(0);
+  const [orderBy, setOrderBy] = useState('petName');
+  const [orderDir, setOrderDir] = useState('asc');
+  const [queryText, setQueryText] = useState('');
 
   const [isSafari, setIsSafari] = useState(true);
 
@@ -31,6 +34,11 @@ function App() {
     setMyAppointments(tempApts);
   };
 
+  const changeOrder = (order, dir) => {
+    setOrderBy(order);
+    setOrderDir(dir);
+  }
+
   useEffect(() => {
     fetch('./data.json')
       .then(response => response.json())
@@ -50,6 +58,30 @@ function App() {
 
   },[]);
 
+  var order;
+  var filteredApts = myAppointments;
+  if (orderDir === 'asc') {
+    order = 1;
+  } else {
+    order = -1;
+  }
+
+  filteredApts.sort((a,b) => {
+    if(a[orderBy].toLowerCase() < b[orderBy].toLowerCase()) {
+      return -1 * order;
+    } else {
+      return 1 * order;
+    }
+  });
+  /*
+  .filter(eachItem => {
+      eachItem['petName'].toLowerCase().includes(queryText) ||
+      eachItem['ownerName'].toLowerCase().includes(queryText) ||
+      eachItem['aptNotes'].toLowerCase().includes(queryText)
+
+  });
+  */
+
   return (
     <main className="page bg-white" id="petratings">
       <div className="container">
@@ -62,10 +94,16 @@ function App() {
                 addAppointment={addAppointment}
                 isSafari={isSafari}
               />
-              <SearchAppointments />
+              <SearchAppointments
+                orderBy={orderBy}
+                orderDir={orderDir}
+                changeOrder={changeOrder}
+                setQueryText={setQueryText}
+              />
               <ListAppointments
-                appointments={myAppointments}
+                appointments={filteredApts}
                 deleteAppointment={deleteAppointment}
+                queryText={queryText}
               />
             </div>
           </div>
