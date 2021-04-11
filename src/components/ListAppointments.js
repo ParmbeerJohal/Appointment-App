@@ -1,6 +1,8 @@
 import { FaTimes } from 'react-icons/fa';
 import Moment from 'react-moment';
 
+import DOMPurify from 'dompurify';
+
 function ListAppointments(props) {
 
     var appointments = props.appointments;
@@ -15,8 +17,13 @@ function ListAppointments(props) {
             item['ownerName'].toLowerCase().includes(queryText.toLowerCase()) ||
             item['aptNotes'].toLowerCase().includes(queryText.toLowerCase())
         ));
+
+        // TODO: add highlight to matching text
+        // appointments.map(item => {
+        //     item.petName = item.petName.replace(queryText.trim(),'<mark>' + queryText.trim() + '</mark>');
+        //     return item;
+        // });
     }
-    
 
     const listItems = appointments.map((item) => (
         <div className="pet-item col media py-3" key={item.id}>

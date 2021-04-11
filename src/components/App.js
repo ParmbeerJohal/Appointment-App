@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import AddAppointments from './AddAppointments';
 import SearchAppointments from './SearchAppointments';
 import ListAppointments from './ListAppointments';
-import { filter, without } from 'lodash';
+import { without } from 'lodash';
 
 function App() {
 
