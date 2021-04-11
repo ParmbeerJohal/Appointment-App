@@ -8,6 +8,7 @@ function SearchAppointments(props) {
                     <input
                     id="SearchApts"
                     type="text"
+                    placeholder="Search..."
                     className="form-control"
                     aria-label="Search Appointments"
                     onChange={e => setQueryText(e.target.value)}
