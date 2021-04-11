@@ -1,7 +1,7 @@
 import { FaTimes } from 'react-icons/fa';
 import Moment from 'react-moment';
 
-import DOMPurify from 'dompurify';
+//import DOMPurify from 'dompurify';
 
 function ListAppointments(props) {
 
